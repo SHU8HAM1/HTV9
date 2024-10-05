@@ -1,0 +1,38 @@
+*{
+    font-family:  "Montserrat", sans-serif;
+    text-decoration: none;
+    color: #00171F;
+    
+}
+
+.div1{
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    
+}
+.div2{
+
+    display: flex;
+    align-items: center;
+    margin: auto;
+    
+}
+.title{
+
+    color:#00171F;
+    
+    margin: 30px;   
+}
+.navButton{
+    
+    background-color: none;
+    font-weight: 500;
+    border: none; 
+    margin: 5px;
+    padding: 8px;
+
+    
+}
