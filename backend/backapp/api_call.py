@@ -2,7 +2,7 @@ import os
 from openai import AzureOpenAI
 
 
-AZURE_KEY = os.getenv('AZURE_KEY')
+AZURE_KEY = os.getenv("AZURE_KEY")
 
 def get_recipe(weight, ingredients):
     client = AzureOpenAI(
