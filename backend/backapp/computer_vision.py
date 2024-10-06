@@ -11,11 +11,11 @@ PAT = CLARIFAI
 # Since you're making inferences outside your app's scope
 USER_ID = 'clarifai'
 APP_ID = 'main'
+
+
 # Change these to whatever model and image URL you want to use
 MODEL_ID = 'food-item-recognition'
 MODEL_VERSION_ID = '1d5fd481e0cf4826aa72ec3ff049e044'
-IMAGE_URL = "https://fridge-food-images.s3.ca-central-1.amazonaws.com/fridge.jpg"
-
 ############################################################################
 # YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
 ############################################################################
@@ -26,6 +26,8 @@ from clarifai_grpc.grpc.api.status import status_code_pb2
 
 
 def get_ingredients(s3_key):
+    IMAGE_URL = f"https://fridge-food-images.s3.ca-central-1.amazonaws.com/{s3_key}"
+
     channel = ClarifaiChannel.get_grpc_channel()
     stub = service_pb2_grpc.V2Stub(channel)
 
