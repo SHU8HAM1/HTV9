@@ -6,6 +6,14 @@
 }
 
 .div1{
+    background-color: beige;
+
+    padding-left: 4em;
+    padding-right: 4em;
+    border-color: black;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 5px;
 
     display: flex;
     align-items: center;
@@ -21,18 +29,24 @@
     
 }
 .title{
-
+    background-color: beige;
     color:#00171F;
     
     margin: 30px;   
 }
-.navButton{
-    
-    background-color: none;
-    font-weight: 500;
-    border: none; 
-    margin: 5px;
-    padding: 8px;
 
+.navButton{
+    background-color: beige;
+    
+    font-weight: 500;
+    margin: 5px;
+    padding: 12px;  
+    transition: 0.3s;
+
+    
+}
+.navButton:hover{
+    background-color: #8df095;
+    font-size: 110%;
     
 }

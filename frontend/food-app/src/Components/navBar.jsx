@@ -7,7 +7,7 @@ export default function NavBar(){
         <h2 className= {styles.title}>HappyTummies</h2>
       
         <div className={styles.div2}>
-    <Link to="/">
+    <Link  to="/">
     <p className= {styles.navButton}>Home</p>
     </Link>
     
