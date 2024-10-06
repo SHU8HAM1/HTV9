@@ -1,67 +1,91 @@
 import { useForm } from "react-hook-form";
 import {useState, useEffect} from "react";
+import React from "react";
 
-
+import getCredentials from "./constants";
 import styles from "../stylesheets/criteriaForm.module.css"
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { useNavigate } from "react-router-dom";
 
+let info = getCredentials();
 
 const s3Client = new S3Client({
   region: "ca-central-1",
   credentials: {
-      accessKeyId: process.env.AWS_KEY,
-      secretAccessKey: process.env.AWS_SECRET_KEY,
+      accessKeyId: info["key"],
+      secretAccessKey: info["secret"],
   },
 });
 
 export default function CriteriaForm(){
-  const [file, setFile] = useState(null);
-  const [name, setName] = useState('');
+  
+  const navigate = useNavigate();  
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [gtype, setgtype] = useState('');
 
+    
     const {
         register,
         handleSubmit,
         formState: { errors }, setValue
       } = useForm();
 
-      const onSubmit = async (data) => {
-      
-
-        const fileInput = document.getElementById('image');
-
-        setValue("fname", '');
-        setValue("lname", '');
-        setValue("email", '');
-        setValue("file", undefined);
-        document.querySelector('input[type="file"]').value = '';
-        if (fileInput.files[0]) {
-          const file = fileInput.files[0];
-
+      const uploadToS3 = async (file) => {
+        try {
+          // Set the S3 parameters
           const params = {
-              Bucket: process.env.REACT_APP_S3_BUCKET,
-              Key: `${Date.now()}_${file.name}`, // Unique file name
-              Body: file,
-              ACL: 'public-read', // Change as needed
+            Bucket: "fridge-food-images", // S3 Bucket name
+            Key: file.name, // File name
+            Body: file, // File object (image)
+            ContentType: file.type, // MIME type of the file
+            ACL: 'public-read'
           };
+    
+          // Upload the image to S3
+          const data = await s3Client.send(new PutObjectCommand(params));
+          console.log("Upload Success", data);
+        } catch (error) {
+          console.log("Upload Error", error);
+        }
+      };
 
-          try {
-              const command = new PutObjectCommand(params);
-              const response = await s3Client.send(command);
-              console.log('File uploaded successfully:', response);
-              // Here you can also send the form data to your backend if needed
-          } catch (error) {
-              console.error('Error uploading file:', error);
-          }
-      }
-      
+      const onSubmit =  async(data) => {
        
+        console.log("form data", data);
+
+        if (data.image && data.image[0]) {
+          console.log("image file: ", data.image[0]);
+          uploadToS3(data.image[0]);
+          
+          data["image"] = data.image[0].name;
+          const queryString = Object.keys(data)
+            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+            .join('&');
+
+        // Navigate to the new URL with the query string
+        navigate(`/search/${queryString}`);
+          
+           }else{
+              console.log("no img selected");
+            }
+ 
     };
     
       const handleFileChange = (e) =>{
-          setFile(e.target.files[0]);
+        const file = e.target.files[0];
+        if (file){
+          //setFile(e.target.files[0]);
+          setValue("image", e.target.files);
+        
+        }
+          
       };
+      const handleChange = (e)=>{
+        setgtype(e.target.value);
+
+      }
     
     
     
@@ -91,18 +115,21 @@ export default function CriteriaForm(){
         </div>
             <div className={styles.inner}>
               <label htmlFor="gtypelose">Lose Weight
-              <input id="goaltypelose" type="radio"  {...register("gtype", { required: true })}/>
+              <input id="goaltypelose" type="radio" value="lose"  
+          onChange={handleChange} {...register("gtype", { required: true })}/>
               </label>
             </div>
             <div className={styles.inner}>
             <label htmlFor="gtypemaintain">Maintain Weight
-              <input id="goaltypemaintain" type="radio"  {...register("gtype", { required: true })}/>
+              <input id="goaltypemaintain" type="radio" value="maintain" 
+          onChange={handleChange}{...register("gtype", { required: true })}/>
               
               </label>
             </div>
             <div className={styles.inner}>
             <label htmlFor="gtypegain">Gain Weight
-              <input id="goaltypegain" type="radio"  {...register("gtype", { required: true })}/>
+              <input id="goaltypegain" type="radio"  value="gain" 
+          onChange={handleChange}{...register("gtype", { required: true })}/>
               </label>
             </div>
             <div className={styles.inner}>
