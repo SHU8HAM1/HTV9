@@ -1,0 +1,56 @@
+
+label {
+    font-weight: 500;
+    background-color: beige;
+    font-size: 30px;
+    display: flex;
+    margin-bottom: 0.25rem;
+  }
+  
+  input{
+    width: 70%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 2px solid #000000;
+    border-radius: 4px;
+  }
+
+  
+  .main{
+    overflow: hidden;
+    background-color: beige;
+    padding: 6em;
+    border-color: #000000;
+    border-style: solid;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+/*change inner to be diff for radio buttons*/
+.inner{
+    background-color: beige;
+    padding: 1em;
+    
+    
+}
+
+button{
+    
+    background-color: #8df095;
+    color: black;
+    font-weight: 500;
+    border: none; 
+    margin: 5px;
+    padding: 8px;
+    border-radius: 3px;
+    transition: 0.2s;
+    
+}
+
+button:hover{
+    background-color: black;
+    color:white;
+    
+}
