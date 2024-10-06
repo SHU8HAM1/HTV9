@@ -19,8 +19,8 @@ def get_recipe(weight, ingredients):
 
     # Send a completion call to generate an answer
     prompt = ("Make an eco-friendly recipe using the ingredients from the list: " + ingredients + 
-    "with the most perishable ingredients being used first with the intent of " +
-    weight + "and keept it short and simple with nothing unnecesary")
+    "with the most perishable ingredients being used first with the intent of a person to " +
+    weight + " weight and keept it short and simple with nothing unnecesary. Display the nutritional facts and what to do with the waste produced briefly")
     response = client.completions.create(
         model=deployment_name,
         prompt=prompt,
