@@ -1,13 +1,24 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {useState, useEffect} from "react";
 
+
 import styles from "../stylesheets/criteriaForm.module.css"
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+
+const s3Client = new S3Client({
+  region: "ca-central-1",
+  credentials: {
+      accessKeyId: process.env.AWS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
+});
 
 export default function CriteriaForm(){
   const [file, setFile] = useState(null);
-  
-
-  
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [gtype, setgtype] = useState('');
 
     const {
         register,
@@ -15,21 +26,39 @@ export default function CriteriaForm(){
         formState: { errors }, setValue
       } = useForm();
 
-      const onSubmit = (data) => {
-            
-        console.log(data); //form submission to server stuff goes here
-         
+      const onSubmit = async (data) => {
+      
 
-
-
+        const fileInput = document.getElementById('image');
 
         setValue("fname", '');
         setValue("lname", '');
         setValue("email", '');
         setValue("file", undefined);
         document.querySelector('input[type="file"]').value = '';
+        if (fileInput.files[0]) {
+          const file = fileInput.files[0];
+
+          const params = {
+              Bucket: process.env.REACT_APP_S3_BUCKET,
+              Key: `${Date.now()}_${file.name}`, // Unique file name
+              Body: file,
+              ACL: 'public-read', // Change as needed
+          };
+
+          try {
+              const command = new PutObjectCommand(params);
+              const response = await s3Client.send(command);
+              console.log('File uploaded successfully:', response);
+              // Here you can also send the form data to your backend if needed
+          } catch (error) {
+              console.error('Error uploading file:', error);
+          }
+      }
+      
        
-      };
+    };
+    
       const handleFileChange = (e) =>{
           setFile(e.target.files[0]);
       };
