@@ -9,17 +9,19 @@ export default function Home(){
         <>
         
             <div className={styles.page}>
+                <div className={styles.top}></div>
                 <div className={styles.title}>
                     <div className={styles.textcard} >
                     <h1>Welcome To HappyTummies! </h1>
-                    <h2>Here You Will Fill Your Belly Meals Made From Sustainable Foods!</h2>
+                    <h2 className={styles.head2}>Here You Will Fill Your Belly Meals Made From Sustainable Foods!</h2>
                     </div>
                 </div>
 
                 <div className={styles.textcard}>
-                    <h1>Get Started Below!</h1>
+                    <h1 >Get Started Below!</h1>
                 </div>
                 <CriteriaForm/>
+                <div className={styles.bottom}></div>
             </div>
     
         </>

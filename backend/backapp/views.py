@@ -1,29 +1,36 @@
+
+AWS_ACCESS_KEY = "key"
+AWS_SECRET_KEY = "key/L69ekFzIE3"
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import boto3
 import requests
 import os
+from .api_call import *
+from .computer_vision import *
 
-
-AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
-AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
 
 
 
 @api_view(['GET'])
 def upload(request):
-    weight = request.GET.get('w', '')  # Get the search query parameter
-    ingredient_s3 = request.GET.get('i', '')
-    results = proccess_upload(weight)  # Implement your search logic here
+    profile = request.GET.get('q', '')  # Get the search query parameter
+    results = proccess_upload(profile)  # Implement your search logic here
     
     return Response({'results': results}, status=status.HTTP_200_OK)
 
 
 
+def proccess_upload(profile):
 
+    
+    queries = profile.split("&")
+    print( queries)
+    for i in range(len(queries)):
+        queries[i] = queries[i].split("=")[1]
 
-def proccess_upload(query):
     # Implement your search logic here
     # This is a dummy example returning static data
     dynamodb = boto3.resource('dynamodb',
@@ -34,9 +41,22 @@ def proccess_upload(query):
     
     table = dynamodb.Table("fridge-list")
     item = {
-        "user": "gargshubham2005",
-        "food": []
+        "user": queries[2],
+        "fname": queries[0],
+        "lname": queries[1],
+        "weight": queries[3],
+        "ingredients": []
     }
     response = table.put_item(Item=item)
 
-    return response
+    ingredients = get_ingredients(queries[2], queries[4])
+
+    answer = get_recipe(queries[3], ingredients)
+
+    result = answer.split("Ingredients:")
+
+    temp = result[1].split("Instructions:")
+
+    out = [result[0], temp[0], temp[1]]
+
+    return out

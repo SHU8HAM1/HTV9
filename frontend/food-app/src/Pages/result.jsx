@@ -1,5 +1,5 @@
 
-import styles from "../stylesheets/home.module.css"
+import styles from "../stylesheets/result.module.css"
 import CriteriaForm from "../Components/CriteriaForm";
 import { useParams,useLocation } from "react-router-dom";
 import {useState, useEffect} from "react"
@@ -30,17 +30,26 @@ export default function Result(){
     }, []);
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <div className={styles.result} >Loading...</div>;
     }
     return(
         <>
         
-            <div className={styles.page}>
-                <div className={styles.title}>
-                    <div className={styles.textcard} >
-                    <h1>Welcome To HappyTummies! </h1>
-                    <h2>Here You Will Fill Your Belly Meals Made From Sustainable Foods!</h2>
-                    </div>
+            <div >
+                <div className={styles.parent}>
+                        <div className={styles.top}></div>
+                            <div className={styles.result}>
+
+                                {results[0]}
+                            
+                            </div>
+                            <h2>Ingredients
+                                </h2>
+                                <div className={styles.result}>{results[1]}</div>
+                                <h2>Instructions</h2>
+                                <div className={styles.result}>{results[2]}</div>
+                                <div className={styles.bottom}></div>
+                    
                 </div>
 
                 

@@ -35,18 +35,24 @@ label {
     
     
 }
+.innerRadio{
+  background-color: beige;
+  padding: 1em;
+  width: 50%;
+  height: auto;
+}
 
 button{
-    
+    width: 40%;
     background-color: #8df095;
     color: black;
     font-weight: 500;
     border: none; 
     margin: 5px;
     padding: 8px;
-    border-radius: 3px;
+    border-radius: 4px;
     transition: 0.2s;
-    
+    font-size: 30px;
 }
 
 button:hover{

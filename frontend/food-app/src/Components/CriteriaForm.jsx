@@ -103,7 +103,7 @@ export default function CriteriaForm(){
                     <input id="lastname" {...register("lname", { required: true })} placeholder="Enter Last Name" /></label>
                 </div>
                 <div className={styles.inner}>
-          <label htmlFor="email">Email
+          <label htmlFor="email">Enter Email
           <input
             type="email"
             id="email"
@@ -113,20 +113,20 @@ export default function CriteriaForm(){
             <p className="error">Please enter a valid email address</p>
           )}
         </div>
-            <div className={styles.inner}>
+            <div className={styles.innerRadio}>
               <label htmlFor="gtypelose">Lose Weight
               <input id="goaltypelose" type="radio" value="lose"  
           onChange={handleChange} {...register("gtype", { required: true })}/>
               </label>
             </div>
-            <div className={styles.inner}>
+            <div className={styles.innerRadio}>
             <label htmlFor="gtypemaintain">Maintain Weight
               <input id="goaltypemaintain" type="radio" value="maintain" 
           onChange={handleChange}{...register("gtype", { required: true })}/>
               
               </label>
             </div>
-            <div className={styles.inner}>
+            <div className={styles.innerRadio}>
             <label htmlFor="gtypegain">Gain Weight
               <input id="goaltypegain" type="radio"  value="gain" 
           onChange={handleChange}{...register("gtype", { required: true })}/>

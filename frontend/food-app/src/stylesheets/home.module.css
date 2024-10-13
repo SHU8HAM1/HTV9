@@ -20,7 +20,7 @@
     align-items: center;
     justify-content: space-around;
 }
-h1,h2{
+h1,.head2{
     background-color: beige;
 }
 
@@ -42,3 +42,6 @@ h1,h2{
     
 }
 
+.bottom,.top{
+    margin-bottom: 3em;
+}
